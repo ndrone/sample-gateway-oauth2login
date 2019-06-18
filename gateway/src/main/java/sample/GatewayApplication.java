@@ -34,32 +34,38 @@ import org.springframework.web.bind.annotation.GetMapping;
 @SpringBootApplication
 public class GatewayApplication {
 
-	@Autowired
-	private TokenRelayGatewayFilterFactory filterFactory;
+    @Autowired
+    private TokenRelayGatewayFilterFactory filterFactory;
 
-	@Bean
-	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-		//@formatter:off
+    @Bean
+    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+        //@formatter:off
 		return builder.routes()
+				.route("resource-health", r -> r.path("/resource/manage/health")
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://localhost:9000"))
+                .route("resource-actuator-protected", r -> r.path("/resource/manage/**")
+                        .filters(f -> f.stripPrefix(1).filter(filterFactory.apply()))
+                        .uri("http://localhost:9000"))
 				.route("resource", r -> r.path("/resource")
 						.filters(f -> f.filter(filterFactory.apply()))
 						.uri("http://localhost:9000"))
 				.build();
 		//@formatter:on
-	}
+    }
 
-	@GetMapping("/")
-	public String index(Model model,
-						@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,
-						@AuthenticationPrincipal OAuth2User oauth2User) {
-		model.addAttribute("userName", oauth2User.getName());
-		model.addAttribute("clientName", authorizedClient.getClientRegistration().getClientName());
-		model.addAttribute("userAttributes", oauth2User.getAttributes());
-		return "index";
-	}
+    @GetMapping("/")
+    public String index(Model model,
+                        @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,
+                        @AuthenticationPrincipal OAuth2User oauth2User) {
+        model.addAttribute("userName", oauth2User.getName());
+        model.addAttribute("clientName", authorizedClient.getClientRegistration().getClientName());
+        model.addAttribute("userAttributes", oauth2User.getAttributes());
+        return "index";
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(GatewayApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GatewayApplication.class, args);
+    }
 
 }
