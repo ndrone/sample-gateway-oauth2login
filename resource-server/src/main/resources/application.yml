@@ -15,3 +15,13 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://localhost:8090/uaa/token_keys
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /manage
+      exposure:
+        include: "*"

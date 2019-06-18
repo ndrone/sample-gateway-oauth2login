@@ -25,9 +25,11 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) throws Exception {
+
+		http.authorizeExchange().pathMatchers("/manage/health").permitAll();
 		http
 			.authorizeExchange()
-				.pathMatchers("/resource").hasAuthority("SCOPE_resource.read")
+				.pathMatchers("/resource", "/manage/**").hasAuthority("SCOPE_resource.read")
 				.anyExchange().authenticated()
 				.and()
 			.oauth2ResourceServer()
