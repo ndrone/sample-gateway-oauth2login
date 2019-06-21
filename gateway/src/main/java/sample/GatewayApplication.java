@@ -41,11 +41,10 @@ public class GatewayApplication {
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         //@formatter:off
 		return builder.routes()
-				.route("resource-health", r -> r.path("/resource/manage/health")
-                        .filters(f -> f.stripPrefix(1))
+				.route("resource-health", r -> r.path("/manage/health")
                         .uri("http://localhost:9000"))
-                .route("resource-actuator-protected", r -> r.path("/resource/manage/**")
-                        .filters(f -> f.stripPrefix(1).filter(filterFactory.apply()))
+                .route("resource-actuator-protected", r -> r.path("/manage/**")
+                        .filters(f -> f.filter(filterFactory.apply()))
                         .uri("http://localhost:9000"))
 				.route("resource", r -> r.path("/resource")
 						.filters(f -> f.filter(filterFactory.apply()))
