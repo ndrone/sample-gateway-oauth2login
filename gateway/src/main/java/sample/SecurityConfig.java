@@ -48,7 +48,7 @@ class SecurityConfig {
         http.authorizeExchange()
 						.matchers(EndpointRequest.to(HealthEndpoint.class, InfoEndpoint.class)).permitAll();
         // gateway resource actuator
-        http.authorizeExchange().pathMatchers("/manage/health").permitAll();
+        http.authorizeExchange().pathMatchers("/**/manage/health").permitAll();
 		return http.authorizeExchange()
 						.anyExchange().authenticated()
 						.and()
