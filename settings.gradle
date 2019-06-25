@@ -2,4 +2,5 @@ rootProject.name = 'sample-gateway-oauth2login'
 
 include 'gateway'
 include 'resource-server-webflux'
+include 'resource-server-web'
 include 'uaa-server'

@@ -1,0 +1,27 @@
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+#    org.springframework.boot.autoconfigure: DEBUG
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /manage
+      exposure:
+        include: "*"
+        
+server:
+  port: 9001
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8090/uaa/token_keys

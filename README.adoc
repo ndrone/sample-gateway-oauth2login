@@ -6,4 +6,5 @@
 * Run UAA Server -> `./gradlew -b uaa-server/build.gradle uaa`
 * Run Gateway -> `./gradlew -b gateway/build.gradle bootRun`
 * Run Webflux Resource Server -> `./gradlew -b resource-server-webflux/build.gradle bootRun`
+* Run Web Resource Server -> `./gradlew -b resource-server-web/build.gradle bootRun`
 * Go to `http://localhost:8080` and login to UAA using *user1/password*

@@ -17,6 +17,7 @@ spring:
   cloud:
     gateway:
       routes:
+        # webflux resource routes
         - id: webflux resource actuator open
           uri: http://localhost:9000
           predicates:
@@ -34,6 +35,27 @@ spring:
           uri: http://localhost:9000
           predicates:
             - Path=/webflux/resource
+          filters:
+            - StripPrefix=1
+            - TokenRelay
+        # web resource routes
+        - id: web resource actuator open
+          uri: http://localhost:9001
+          predicates:
+            - Path=/web/manage/health
+          filters:
+            - StripPrefix=1
+        - id: web resource actuator protected
+          uri: http://localhost:9001
+          predicates:
+            - Path=/web/manage/**
+          filters:
+            - StripPrefix=1
+            - TokenRelay
+        - id: web resource
+          uri: http://localhost:9001
+          predicates:
+            - Path=/web/resource
           filters:
             - StripPrefix=1
             - TokenRelay
